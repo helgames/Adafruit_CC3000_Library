@@ -83,9 +83,14 @@ class Adafruit_CC3000_Client : public Print {
   size_t write(uint8_t c);
 
   size_t fastrprint(const char *str);
+#ifndef CC3000_TINY_SERVER
   size_t fastrprintln(const char *str);
+#endif
+
   size_t fastrprint(const __FlashStringHelper *ifsh);
+#ifndef CC3000_TINY_SERVER
   size_t fastrprintln(const __FlashStringHelper *ifsh);
+#endif
 
   int16_t write(const void *buf, uint16_t len, uint32_t flags = 0);
   int16_t read(void *buf, uint16_t len, uint32_t flags = 0);
@@ -111,9 +116,11 @@ class Adafruit_CC3000 {
   public:
   Adafruit_CC3000(uint8_t csPin, uint8_t irqPin, uint8_t vbatPin, uint8_t spispeed = SPI_CLOCK_DIVIDER);
     bool     begin(uint8_t patchReq = 0, bool useSmartConfigData = false);
+#ifndef CC3000_TINY_SERVER
     void     reboot(uint8_t patchReq = 0);
     void     stop(void);
     bool     disconnect(void);
+#endif
     bool     deleteProfiles(void);
     void     printHex(const byte * data, const uint32_t numBytes);
     void     printHexChar(const byte * data, const uint32_t numBytes);
@@ -133,8 +140,10 @@ class Adafruit_CC3000 {
     bool     checkSmartConfigFinished(void);
 
     Adafruit_CC3000_Client connectTCP(uint32_t destIP, uint16_t destPort);
+#ifndef CC3000_TINY_SERVER
     Adafruit_CC3000_Client connectUDP(uint32_t destIP, uint16_t destPort);
-     
+#endif
+
 #if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
     bool     scanSSIDs(uint32_t time);
 #endif

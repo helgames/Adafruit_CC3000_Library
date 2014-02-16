@@ -66,7 +66,14 @@ extern "C" {
  * This will remove secure authentification (WPA/WEP) and smart config, amongst
  * others.
  */
-#define CC3000_TINY_DRIVER
+//#define CC3000_TINY_DRIVER
+
+/*
+ * Define CC3000_TINY_SERVER to compile the driver with some string and utility
+ * functions removed, so a server doesn't require as much flash memory.
+ */
+//#define CC3000_TINY_SERVER
+
 /*
  * Define CC3000_MESSAGES_VERBOSE to compile the driver with verbose messages
  * for states and errors. This requires quite a bit of additional flash memory.

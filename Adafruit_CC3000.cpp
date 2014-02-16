@@ -476,6 +476,7 @@ uint32_t Adafruit_CC3000::IP2U32(uint8_t a, uint8_t b, uint8_t c, uint8_t d) {
     @brief   Reboot CC3000 (stop then start)
 */
 /**************************************************************************/
+#ifndef CC3000_TINY_SERVER
 void Adafruit_CC3000::reboot(uint8_t patch)
 {
   if (!_initialised)
@@ -487,12 +488,14 @@ void Adafruit_CC3000::reboot(uint8_t patch)
   delay(5000);
   wlan_start(patch);
 }
+#endif
 
 /**************************************************************************/
 /*!
     @brief   Stop CC3000
 */
 /**************************************************************************/
+#ifndef CC3000_TINY_SERVER
 void Adafruit_CC3000::stop(void)
 {
   if (!_initialised)
@@ -502,6 +505,7 @@ void Adafruit_CC3000::stop(void)
 
   wlan_stop();
 }
+#endif
 
 /**************************************************************************/
 /*!
@@ -510,6 +514,7 @@ void Adafruit_CC3000::stop(void)
     @returns  False if an error occured!
 */
 /**************************************************************************/
+#ifndef CC3000_TINY_SERVER
 bool Adafruit_CC3000::disconnect(void)
 {
   if (!_initialised)
@@ -521,6 +526,7 @@ bool Adafruit_CC3000::disconnect(void)
 
   return retVal != 0 ? false : true;
 }
+#endif
 
 /**************************************************************************/
 /*!
@@ -1281,6 +1287,7 @@ Adafruit_CC3000_Client Adafruit_CC3000::connectTCP(uint32_t destIP, uint16_t des
 }
 
 
+#ifndef CC3000_TINY_SERVER
 Adafruit_CC3000_Client Adafruit_CC3000::connectUDP(uint32_t destIP, uint16_t destPort)
 {
   sockaddr      socketAddress;
@@ -1326,6 +1333,7 @@ Adafruit_CC3000_Client Adafruit_CC3000::connectUDP(uint32_t destIP, uint16_t des
   return Adafruit_CC3000_Client(udp_socket);
 }
 
+#endif
 
 /**********************************************************************/
 Adafruit_CC3000_Client::Adafruit_CC3000_Client(void) {
@@ -1408,6 +1416,7 @@ size_t Adafruit_CC3000_Client::fastrprint(const __FlashStringHelper *ifsh)
   return n;
 }
 
+#ifndef CC3000_TINY_SERVER
 size_t Adafruit_CC3000_Client::fastrprintln(const __FlashStringHelper *ifsh)
 {
   size_t r = 0;
@@ -1426,6 +1435,7 @@ size_t Adafruit_CC3000_Client::fastrprintln(const char *str)
   if ((r += write("\n\r", 2, 0)) <= 0) return 0;  // meme fix
   return r;
 }
+#endif
 
 size_t Adafruit_CC3000_Client::fastrprint(const char *str)
 {
