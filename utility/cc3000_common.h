@@ -88,6 +88,11 @@ extern "C" {
 #define CC3000_SECURE
 
 /*
+ * Define CC3000_NO_SNTP to exclude the simple NTP client when building the driver.
+ */
+//#define CC3000_NO_SNTP
+
+/*
  * Define CC3000_NO_PATCH to exclude patching from the driver build. Patching seems
  * to not be used at the moment, so it is safe to leave this on and thereby shrink
  * the drivers flash requirements a bit.
