@@ -67,6 +67,12 @@ extern "C" {
  * others.
  */
 #define CC3000_TINY_DRIVER
+/*
+ * Define CC3000_MESSAGES_VERBOSE to compile the driver with verbose messages
+ * for states and errors. This requires quite a bit of additional flash memory.
+ */
+#define CC3000_MESSAGES_VERBOSE
+
 
 /*
  * Define CC3000_SECURE to force inclusion of WEP and WPA authentification

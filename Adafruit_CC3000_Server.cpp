@@ -138,21 +138,21 @@ void Adafruit_CC3000_Server::begin() {
   unsigned long aucInactivity = 0;
   cc3k_int_poll();
   if (netapp_timeout_values(&aucDHCP, &aucARP, &aucKeepalive, &aucInactivity) != 0) {
-    CC3K_PRINTLN_F("Error setting inactivity timeout!");
+    CC3K_PRINTLN_F(CC3000_MSG_ERR_SET_CLIENT_TIMEOUT);
     return;
   }
   // Create a TCP socket
   cc3k_int_poll();
   int16_t soc = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (soc < 0) {
-    CC3K_PRINTLN_F("Couldn't create listening socket!");
+    CC3K_PRINTLN_F(CC3000_MSG_FAIL_CREATE_LISTEN_SOCK);
     return;
   }
   // Set the socket's accept call as non-blocking.
   cc3k_int_poll();
   char arg = SOCK_ON; // nsd: looked in TI example code and they pass this as a 'short' in one example, and 'char' in two others. 'char' seems as likely work, and has no endianess issue
   if (setsockopt(soc, SOL_SOCKET, SOCKOPT_ACCEPT_NONBLOCK, &arg, sizeof(arg)) < 0) {
-    CC3K_PRINTLN_F("Couldn't set socket as non-blocking!");
+    CC3K_PRINTLN_F(CC3000_MSG_FAIL_SET_SOCKET_NOBLOCK);
     return;
   }
   // Bind the socket to a TCP address.
@@ -162,14 +162,14 @@ void Adafruit_CC3000_Server::begin() {
   address.sin_port = htons(_port);        // Listen on the specified port.
   cc3k_int_poll();
   if (bind(soc, (sockaddr*) &address, sizeof(address)) < 0) {
-    CC3K_PRINTLN_F("Error binding listen socket to address!");
+    CC3K_PRINTLN_F(CC3000_MSG_FAIL_SOCKET_BIND_ADDR);
     return;
   }
   // Start listening for connections.
   // The backlog parameter is 0 as it is not supported on TI's CC3000 firmware.
   cc3k_int_poll();
   if (listen(soc, 0) < 0) {
-    CC3K_PRINTLN_F("Error opening socket for listening!");
+    CC3K_PRINTLN_F(CC3000_MSG_ERR_OPEN_SOCKET_LISTEN); // listening
     return;
   }
   _listenSocket = soc;
