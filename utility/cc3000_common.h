@@ -80,6 +80,11 @@ extern "C" {
  */
 #define CC3000_MESSAGES_VERBOSE
 
+/*
+ * Define CC3000_STANDARD_BUFFER_SIZE to compile a tiny driver with standard
+ * buffer sizes,
+ */
+//#define CC3000_STANDARD_BUFFER_SIZE
 
 /*
  * Define CC3000_SECURE to force inclusion of WEP and WPA authentification
@@ -191,8 +196,8 @@ extern "C" {
   allocated in the FRAM section that is allocated manually and not by IDE.
 */
   
-#ifndef CC3000_TINY_DRIVER
   
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_STANDARD_BUFFER_SIZE)
 	#define CC3000_RX_BUFFER_SIZE   (CC3000_MINIMAL_RX_SIZE)
 	#define CC3000_TX_BUFFER_SIZE   (CC3000_MINIMAL_TX_SIZE)
   
