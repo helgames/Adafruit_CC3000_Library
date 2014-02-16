@@ -139,7 +139,9 @@ tSpiInformation sSpiInformation;
 unsigned char tSpiReadHeader[] = {READ, 0, 0, 0, 0};
 
 void SpiWriteDataSynchronous(unsigned char *data, unsigned short size);
+#ifndef CC3000_TINY_DRIVER
 void SpiWriteAsync(const unsigned char *data, unsigned short size);
+#endif
 void SpiPauseSpi(void);
 void SpiResumeSpi(void);
 void SSIContReadOperation(void);

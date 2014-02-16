@@ -74,10 +74,12 @@
 //!                over resets.
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 long netapp_config_mac_adrress(unsigned char * mac)
 {
 	return  nvmem_set_mac_address(mac);
 }
+#endif
 
 //*****************************************************************************
 //
@@ -182,7 +184,7 @@ long netapp_dhcp(unsigned long *aucIP, unsigned long *aucSubnetMask,unsigned lon
 //!
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 long 
 netapp_timeout_values(unsigned long *aucDHCP, unsigned long *aucARP,unsigned long *aucKeepalive,	unsigned long *aucInactivity)
 {
@@ -373,7 +375,7 @@ long netapp_ping_stop()
 //!
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_DHCP_INFO)
 void netapp_ipconfig( tNetappIpconfigRetArgs * ipconfig )
 {
 	unsigned char *ptr;

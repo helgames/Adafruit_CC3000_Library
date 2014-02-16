@@ -204,7 +204,7 @@ extern void wlan_stop(void);
 //!  @sa         wlan_disconnect
 //
 //*****************************************************************************
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 extern long wlan_connect(unsigned long ulSecType, const char *ssid, long ssid_len,
                         unsigned char *bssid, unsigned char *key, long key_len);
 #else
@@ -254,6 +254,7 @@ extern long wlan_disconnect(void);
 //
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_add_profile(unsigned long ulSecType, unsigned char* ucSsid,
 										 unsigned long ulSsidLen, 
 										 unsigned char *ucBssid,
@@ -264,6 +265,7 @@ extern long wlan_add_profile(unsigned long ulSecType, unsigned char* ucSsid,
                                          unsigned char* ucPf_OrKey,
                                          unsigned long ulPassPhraseLen);
 
+#endif
 
 
 //*****************************************************************************
@@ -392,8 +394,10 @@ extern long wlan_ioctl_set_connection_policy(
 //*****************************************************************************
 
 
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_ioctl_get_scan_results(unsigned long ulScanTimeout,
                                        unsigned char *ucResults);
+#endif
 
 //*****************************************************************************
 //
@@ -460,8 +464,10 @@ extern long wlan_ioctl_set_scan_params(unsigned long uiEnable, unsigned long
 //!  @sa      wlan_smart_config_set_prefix , wlan_smart_config_stop
 //
 //*****************************************************************************                                        
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_smart_config_start(unsigned long algoEncryptedFlag);
 
+#endif
 
 //*****************************************************************************
 //
@@ -476,7 +482,9 @@ extern long wlan_smart_config_start(unsigned long algoEncryptedFlag);
 //!  @sa      wlan_smart_config_start , wlan_smart_config_set_prefix
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_smart_config_stop(void);
+#endif
 
 //*****************************************************************************
 //
@@ -494,7 +502,9 @@ extern long wlan_smart_config_stop(void);
 //!  @sa      wlan_smart_config_start , wlan_smart_config_stop
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_smart_config_set_prefix(char* cNewPrefix);
+#endif
 
 //*****************************************************************************
 //
@@ -510,7 +520,9 @@ extern long wlan_smart_config_set_prefix(char* cNewPrefix);
 //!           behavior is as defined by connection policy.
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern long wlan_smart_config_process(void);
+#endif
 
 //*****************************************************************************
 //

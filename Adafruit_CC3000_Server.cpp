@@ -54,20 +54,24 @@ size_t Adafruit_CC3000_ClientRef::fastrprint(const char *str) {
   return _client->fastrprint(str);
 }
 
+#ifndef CC3000_TINY_DRIVER
 size_t Adafruit_CC3000_ClientRef::fastrprintln(const char *str) {
   HANDLE_NULL(_client, 0);
   return _client->fastrprintln(str);
 }
+#endif
 
 size_t Adafruit_CC3000_ClientRef::fastrprint(const __FlashStringHelper *ifsh) {
   HANDLE_NULL(_client, 0);
   return _client->fastrprint(ifsh);
 }
 
+#ifndef CC3000_TINY_DRIVER
 size_t Adafruit_CC3000_ClientRef::fastrprintln(const __FlashStringHelper *ifsh) {
   HANDLE_NULL(_client, 0);
   return _client->fastrprintln(ifsh);
 }
+#endif
 
 int16_t Adafruit_CC3000_ClientRef::write(const void *buf, uint16_t len, uint32_t flags) {
   HANDLE_NULL(_client, 0);

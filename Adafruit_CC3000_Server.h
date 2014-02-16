@@ -22,7 +22,9 @@
 #ifndef ADAFRUIT_CC3000_SERVER_H
 #define ADAFRUIT_CC3000_SERVER_H
 
+#include "utility/cc3000_common.h"
 #include "Adafruit_CC3000.h"
+#include "messages.h"
 
 #include "Print.h"
 #include "Server.h"
@@ -46,9 +48,14 @@ class Adafruit_CC3000_ClientRef : public Print {
   size_t write(uint8_t c);
 
   size_t fastrprint(const char *str);
+#ifndef CC3000_TINY_SERVER
   size_t fastrprintln(const char *str);
+#endif
+
   size_t fastrprint(const __FlashStringHelper *ifsh);
+#ifndef CC3000_TINY_SERVER
   size_t fastrprintln(const __FlashStringHelper *ifsh);
+#endif
 
   int16_t write(const void *buf, uint16_t len, uint32_t flags = 0);
   int16_t read(void *buf, uint16_t len, uint32_t flags = 0);

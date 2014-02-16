@@ -33,8 +33,10 @@ typedef char PROGMEM prog_char;
 
 #define DEBUG_MODE                      (0)
 
+#ifndef CC3000_TINY_DRIVER
 int getFreeRam(void);
 void displayFreeRam(void);
+#endif
 void uart_putchar(char c);
 void printHex(uint8_t h);
 void printHex16(uint16_t h);

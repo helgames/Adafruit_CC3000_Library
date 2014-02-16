@@ -726,7 +726,7 @@ select(long nfds, fd_set *readsds, fd_set *writesds, fd_set *exceptsds,
 //
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 int
 setsockopt(long sd, long level, long optname, const void *optval,
 					 socklen_t optlen)

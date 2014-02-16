@@ -60,6 +60,20 @@
 extern "C" {
 #endif
 
+/*
+ * Define CC3000_TINY_DRIVER to compile the driver with a minimum feature set
+ * and very small buffers, so it doesn't require as much flash or RAM memory.
+ * This will remove secure authentification (WPA/WEP) and smart config, amongst
+ * others.
+ */
+#define CC3000_TINY_DRIVER
+
+/*
+ * Define CC3000_SECURE to force inclusion of WEP and WPA authentification
+ * even when building a tiny driver. This will require additional flash memory.
+ */
+#define CC3000_SECURE
+
 //*****************************************************************************
 //                  ERROR CODES
 //*****************************************************************************

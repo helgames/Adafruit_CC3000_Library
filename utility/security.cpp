@@ -42,7 +42,7 @@
 
 #include "security.h"
 
-#ifndef CC3000_UNENCRYPTED_SMART_CONFIG
+#if ! defined(CC3000_UNENCRYPTED_SMART_CONFIG) && ! defined(CC3000_TINY_DRIVER)
 // foreward sbox
 const unsigned char sbox[256] =   { 
 //0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F

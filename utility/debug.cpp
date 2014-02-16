@@ -30,6 +30,7 @@
 */
 /**************************************************************************/
 
+#ifndef CC3000_TINY_DRIVER
 #if defined (__arm__) && defined (__SAM3X8E__) // Arduino Due
 // should use uinstd.h to define sbrk but on Arduino Due this causes a conflict
 extern "C" char* sbrk(int incr);
@@ -63,6 +64,7 @@ void displayFreeRam(void)
   CC3KPrinter->print(getFreeRam());
   CC3KPrinter->println(F(" bytes"));
 }
+#endif
 
 void uart_putchar(char c) {
   if (CC3KPrinter != 0) {

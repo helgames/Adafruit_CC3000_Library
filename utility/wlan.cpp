@@ -384,7 +384,7 @@ wlan_stop(void)
 //
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 long
 wlan_connect(unsigned long ulSecType, const char *ssid, long ssid_len,
              unsigned char *bssid, unsigned char *key, long key_len)
@@ -863,7 +863,7 @@ wlan_ioctl_get_scan_results(unsigned long ulScanTimeout,
 //
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 long
 wlan_ioctl_set_scan_params(unsigned long uiEnable, unsigned long uiMinDwellTime,
 													 unsigned long uiMaxDwellTime,
@@ -983,7 +983,7 @@ wlan_set_event_mask(unsigned long ulMask)
 //
 //*****************************************************************************
 
-#ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 long
 wlan_ioctl_statusget(void)
 {
@@ -1024,6 +1024,7 @@ wlan_ioctl_statusget(void)
 //
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 long
 wlan_smart_config_start(unsigned long algoEncryptedFlag)
 {
@@ -1047,6 +1048,7 @@ wlan_smart_config_start(unsigned long algoEncryptedFlag)
 
 	return(ret);
 }
+#endif
 
 //*****************************************************************************
 //
@@ -1062,6 +1064,7 @@ wlan_smart_config_start(unsigned long algoEncryptedFlag)
 //
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 long
 wlan_smart_config_stop(void)
 {
@@ -1078,6 +1081,7 @@ wlan_smart_config_stop(void)
 
 	return(ret);
 }
+#endif
 
 //*****************************************************************************
 //
@@ -1096,6 +1100,7 @@ wlan_smart_config_stop(void)
 //
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 long
 wlan_smart_config_set_prefix(char* cNewPrefix)
 {
@@ -1126,6 +1131,7 @@ wlan_smart_config_set_prefix(char* cNewPrefix)
 
 	return(ret);
 }
+#endif
 
 //*****************************************************************************
 //
@@ -1143,6 +1149,7 @@ wlan_smart_config_set_prefix(char* cNewPrefix)
 //*****************************************************************************
 
 
+#ifndef CC3000_TINY_DRIVER
 #ifndef CC3000_UNENCRYPTED_SMART_CONFIG
 long
 wlan_smart_config_process()
@@ -1252,6 +1259,7 @@ wlan_smart_config_process()
 	return returnValue;
 }
 #endif //CC3000_UNENCRYPTED_SMART_CONFIG
+#endif
 
 //*****************************************************************************
 //

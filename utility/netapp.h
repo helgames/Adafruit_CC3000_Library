@@ -108,7 +108,9 @@ typedef struct _netapp_pingreport_args
 //!                over resets.
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern long  netapp_config_mac_adrress( unsigned char *mac );
+#endif
 
 //*****************************************************************************
 //
@@ -189,9 +191,7 @@ extern 	long netapp_dhcp(unsigned long *aucIP, unsigned long *aucSubnetMask,unsi
 //!               it will be set automatically to 20s.
 //!
 //*****************************************************************************
- #ifndef CC3000_TINY_DRIVER
 extern long netapp_timeout_values(unsigned long *aucDHCP, unsigned long *aucARP,unsigned long *aucKeepalive,	unsigned long *aucInactivity);
-#endif
 
 //*****************************************************************************
 //

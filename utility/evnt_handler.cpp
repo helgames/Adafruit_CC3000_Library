@@ -195,7 +195,7 @@ void hci_unsol_handle_patch_request(char *event_hdr)
 		break;
 
 	case HCI_EVENT_PATCHES_BOOTLOAD_REQ:
-
+#if ! defined(CC3000_TINY_DRIVER) && ! defined(CC3000_NO_PATCH)
 		if (tSLInformation.sBootLoaderPatches)
 		{
 			patch = tSLInformation.sBootLoaderPatches(&ucLength);
@@ -207,7 +207,7 @@ void hci_unsol_handle_patch_request(char *event_hdr)
 				return;
 			}
 		}
-
+#endif
 		// Send 0 length Patches response event
 		hci_patch_send(HCI_EVENT_PATCHES_BOOTLOAD_REQ,
 									 tSLInformation.pucTxCommandBuffer, 0, 0);

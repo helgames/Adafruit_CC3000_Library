@@ -26,9 +26,11 @@
  #include "WProgram.h"
 #endif
 #include "utility/cc3000_common.h"
+#include "utility/debug.h"
 #include "utility/wlan.h"
 #include "utility/netapp.h"
 #include "ccspi.h"
+#include "messages.h"
 
 #if defined(__arm__) && defined(__SAM3X8E__) // Arduino Due
   #define SPI_CLOCK_DIVIDER 6 // used to set the speed for the SPI bus; 6 == 14 Mhz on the Arduino Due
@@ -133,7 +135,12 @@ class Adafruit_CC3000 {
     Adafruit_CC3000_Client connectTCP(uint32_t destIP, uint16_t destPort);
     Adafruit_CC3000_Client connectUDP(uint32_t destIP, uint16_t destPort);
      
-    #ifndef CC3000_TINY_DRIVER
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
+    bool     scanSSIDs(uint32_t time);
+#endif
+
+/* Functions that aren't available with the tiny driver */
+#ifndef CC3000_TINY_DRIVER
     bool     getFirmwareVersion(uint8_t *major, uint8_t *minor);
     status_t getStatus(void);
     uint16_t startSSIDscan(void);
@@ -148,12 +155,7 @@ class Adafruit_CC3000 {
 
     uint16_t ping(uint32_t ip, uint8_t attempts=3,  uint16_t timeout=500, uint8_t size=32);
     uint16_t getHostByName(char *hostname, uint32_t *ip);
-    #endif
-
-    /* Functions that aren't available with the tiny driver */
-    #ifndef CC3000_TINY_DRIVER
-    bool     scanSSIDs(uint32_t time);
-    #endif
+#endif
 
     void setPrinter(Print*);
 

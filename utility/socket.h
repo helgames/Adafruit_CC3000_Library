@@ -43,6 +43,7 @@
 #ifndef __SOCKET_H__
 #define __SOCKET_H__
 
+#include "cc3000_common.h"
 
 //*****************************************************************************
 //
@@ -493,7 +494,7 @@ extern int select(long nfds, fd_set *readsds, fd_set *writesds,
 //!  @sa getsockopt
 //
 //*****************************************************************************
-#ifndef CC3000_TINY_DRIVER 
+#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
 extern int setsockopt(long sd, long level, long optname, const void *optval,
                       socklen_t optlen);
 #endif

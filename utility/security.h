@@ -35,6 +35,7 @@
 #ifndef __SECURITY__
 #define __SECURITY__
 
+#include "cc3000_common.h"
 #include "nvmem.h"
 
 //*****************************************************************************
@@ -50,7 +51,7 @@ extern "C" {
 
 #define AES128_KEY_SIZE		16
 
-#ifndef CC3000_UNENCRYPTED_SMART_CONFIG
+#if ! defined(CC3000_UNENCRYPTED_SMART_CONFIG) && ! defined(CC3000_TINY_DRIVER)
 
 
 //*****************************************************************************
