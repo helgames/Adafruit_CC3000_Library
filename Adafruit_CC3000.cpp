@@ -928,10 +928,10 @@ bool Adafruit_CC3000::connectOpen(const char *ssid)
     CHECK_SUCCESS(wlan_connect(WLAN_SEC_UNSEC,
 					(const char*)ssid, strlen(ssid),
 					0 ,NULL,0),
-  #else
-  #endif
 					CC3000_MSG_FAIL_CONNECT_SSID_23, false);
+#else
     wlan_connect(ssid, strlen(ssidLen));
+#endif
 
   return true;
 }
