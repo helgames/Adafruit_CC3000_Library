@@ -98,6 +98,15 @@ extern "C" {
 //#define CC3000_NO_SNTP
 
 /*
+ * Define CC3000_DHCP_INFO to be able to get DHCP info (like IP address and default
+ * gateway) from the driver. This is useful for setting up a new device, but may
+ * not be necessary once the device is programmed and running. You can always use
+ * your routers DHCP settings to pin the IP address and configure stuff like the
+ * default gateway or name server, so DHCP info on the device is no longer required.
+ */
+#define CC3000_DHCP_INFO
+
+/*
  * Define CC3000_NO_PATCH to exclude patching from the driver build. Patching seems
  * to not be used at the moment, so it is safe to leave this on and thereby shrink
  * the drivers flash requirements a bit.
