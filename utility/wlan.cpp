@@ -185,18 +185,22 @@ static void SimpleLink_Init_Start(unsigned short usPatchesAvailableAtHost)
 //*****************************************************************************
 
 void wlan_init(	tWlanCB 				sWlanCB,
+#ifndef CC3000_NO_PATCH
 				tFWPatches 				sFWPatches,
 				tDriverPatches 			sDriverPatches,
 				tBootLoaderPatches 		sBootLoaderPatches,
+#endif
 				tWlanReadInteruptPin 	sReadWlanInterruptPin,
 				tWlanInterruptEnable 	sWlanInterruptEnable,
 				tWlanInterruptDisable 	sWlanInterruptDisable,
 				tWriteWlanPin			sWriteWlanPin)
 {
 
+#ifndef CC3000_NO_PATCH
 	tSLInformation.sFWPatches = sFWPatches;
 	tSLInformation.sDriverPatches = sDriverPatches;
 	tSLInformation.sBootLoaderPatches = sBootLoaderPatches;
+#endif
 
 	// init io callback
 	tSLInformation.ReadWlanInterruptPin = sReadWlanInterruptPin;

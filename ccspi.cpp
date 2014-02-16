@@ -635,6 +635,7 @@ void WlanInterruptDisable()
   detachInterrupt(g_IRQnum);
 }
 
+#ifndef CC3000_NO_PATCH
 //*****************************************************************************
 //
 //! sendDriverPatch
@@ -685,7 +686,7 @@ char *sendWLFWPatch(unsigned long *Length) {
   *Length = 0;
   return NULL;
 }
-
+#endif
 
 /**************************************************************************/
 /*!

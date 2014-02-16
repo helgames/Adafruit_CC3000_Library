@@ -80,6 +80,13 @@ extern "C" {
  */
 #define CC3000_SECURE
 
+/*
+ * Define CC3000_NO_PATCH to exclude patching from the driver build. Patching seems
+ * to not be used at the moment, so it is safe to leave this on and thereby shrink
+ * the drivers flash requirements a bit.
+ */
+//#define CC3000_NO_PATCH
+
 //*****************************************************************************
 //                  ERROR CODES
 //*****************************************************************************
@@ -203,11 +210,13 @@ struct timeval
     suseconds_t    tv_usec;                 /* microseconds */
 };
 
+#ifndef CC3000_NO_PATCH
 typedef char *(*tFWPatches)(unsigned long *usLength);
 
 typedef char *(*tDriverPatches)(unsigned long *usLength);
 
 typedef char *(*tBootLoaderPatches)(unsigned long *usLength);
+#endif
 
 typedef void (*tWlanCB)(long event_type, char * data, unsigned char length );
 
@@ -226,9 +235,11 @@ typedef struct
 	unsigned char 	*pucReceivedData;
 	unsigned char 	*pucTxCommandBuffer;
 
+#ifndef CC3000_NO_PATCH
 	tFWPatches 			sFWPatches;
 	tDriverPatches 		sDriverPatches;
 	tBootLoaderPatches 	sBootLoaderPatches;
+#endif
 	tWlanCB	 			sWlanCB;
     tWlanReadInteruptPin  ReadWlanInterruptPin;
     tWlanInterruptEnable  WlanInterruptEnable;

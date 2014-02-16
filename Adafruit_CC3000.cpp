@@ -268,7 +268,9 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
   
   DEBUGPRINT_F("init\n\r");
   wlan_init(CC3000_UsynchCallback,
+#ifndef CC3000_NO_PATCH
             sendWLFWPatch, sendDriverPatch, sendBootLoaderPatch,
+#endif
             ReadWlanInterruptPin,
             WlanInterruptEnable,
             WlanInterruptDisable,

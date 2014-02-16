@@ -121,9 +121,11 @@ extern "C" {
 //
 //*****************************************************************************
 extern void wlan_init(		tWlanCB	 	sWlanCB,
+#ifndef CC3000_NO_PATCH
 	   			tFWPatches sFWPatches,
 	   			tDriverPatches sDriverPatches,
 	   			tBootLoaderPatches sBootLoaderPatches,
+#endif
                 tWlanReadInteruptPin  sReadWlanInterruptPin,
                 tWlanInterruptEnable  sWlanInterruptEnable,
                 tWlanInterruptDisable sWlanInterruptDisable,

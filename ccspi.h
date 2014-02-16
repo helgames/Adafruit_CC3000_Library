@@ -81,9 +81,11 @@ extern void WriteWlanPin( unsigned char val );
 extern long ReadWlanInterruptPin(void);
 extern void WlanInterruptEnable();
 extern void WlanInterruptDisable();
+#ifndef CC3000_NO_PATCH
 extern char *sendDriverPatch(unsigned long *Length);
 extern char *sendBootLoaderPatch(unsigned long *Length);
 extern char *sendWLFWPatch(unsigned long *Length);
+#endif
 extern void SPI_IRQ(void);
 
 #endif
