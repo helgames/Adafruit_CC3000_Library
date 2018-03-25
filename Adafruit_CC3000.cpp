@@ -482,6 +482,7 @@ uint32_t Adafruit_CC3000::IP2U32(uint8_t a, uint8_t b, uint8_t c, uint8_t d) {
     @brief   Reboot CC3000 (stop then start)
 */
 /**************************************************************************/
+#ifndef CC3000_TINY_DRIVER
 void Adafruit_CC3000::reboot(uint8_t patch)
 {
   if (!_initialised)
@@ -497,6 +498,7 @@ void Adafruit_CC3000::reboot(uint8_t patch)
   wlan_start(patch);
   WDT_RESET();
 }
+#endif
 
 /**************************************************************************/
 /*!
@@ -541,6 +543,7 @@ bool Adafruit_CC3000::disconnect(void)
     @returns  False if an error occured!
 */
 /**************************************************************************/
+#ifndef CC3000_TINY_DRIVER
 bool Adafruit_CC3000::deleteProfiles(void)
 {
   if (!_initialised)
@@ -555,6 +558,7 @@ bool Adafruit_CC3000::deleteProfiles(void)
 
   return true;
 }
+#endif
 
 /**************************************************************************/
 /*!

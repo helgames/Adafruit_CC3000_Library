@@ -85,7 +85,7 @@ extern "C" {
  * Define CC3000_STANDARD_BUFFER_SIZE to compile a tiny driver with standard
  * buffer sizes,
  */
-//#define CC3000_STANDARD_BUFFER_SIZE
+#define CC3000_STANDARD_BUFFER_SIZE
 
 /*
  * Define CC3000_SECURE to force inclusion of WEP and WPA authentification
@@ -105,7 +105,7 @@ extern "C" {
  * your routers DHCP settings to pin the IP address and configure stuff like the
  * default gateway or name server, so DHCP info on the device is no longer required.
  */
-#define CC3000_DHCP_INFO
+//#define CC3000_DHCP_INFO
 
 /*
  * Define CC3000_NO_PATCH to exclude patching from the driver build. Patching seems
