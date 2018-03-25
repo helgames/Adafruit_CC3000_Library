@@ -66,13 +66,13 @@ extern "C" {
  * This will remove secure authentification (WPA/WEP) and smart config, amongst
  * others.
  */
-//#define CC3000_TINY_DRIVER
+#define CC3000_TINY_DRIVER
 
 /*
  * Define CC3000_TINY_SERVER to compile the driver with some string and utility
  * functions removed, so a server doesn't require as much flash memory.
  */
-//#define CC3000_TINY_SERVER
+#define CC3000_TINY_SERVER
 
 /*
  * Define CC3000_MESSAGES_VERBOSE to compile the driver with verbose messages
@@ -95,7 +95,7 @@ extern "C" {
 /*
  * Define CC3000_NO_SNTP to exclude the simple NTP client when building the driver.
  */
-//#define CC3000_NO_SNTP
+#define CC3000_NO_SNTP
 
 /*
  * Define CC3000_DHCP_INFO to be able to get DHCP info (like IP address and default
@@ -111,7 +111,7 @@ extern "C" {
  * to not be used at the moment, so it is safe to leave this on and thereby shrink
  * the drivers flash requirements a bit.
  */
-//#define CC3000_NO_PATCH
+#define CC3000_NO_PATCH
 
 //*****************************************************************************
 //                  ERROR CODES
@@ -166,7 +166,8 @@ extern "C" {
 */
 
 #define CC3000_MINIMAL_RX_SIZE      (130 + 1)
-#define CC3000_MAXIMAL_RX_SIZE      (1519 + 1)
+//#define CC3000_MAXIMAL_RX_SIZE      (1519 + 1)
+#define CC3000_MAXIMAL_RX_SIZE      (200 + 1)
 
 /*Defines for minimal and maximal TX buffer size.
   This buffer is used for sending events and data.
@@ -187,8 +188,9 @@ extern "C" {
  
   The 1 is used for the overrun detection */ 
 
-#define	CC3000_MINIMAL_TX_SIZE      (130 + 1)  
-#define	CC3000_MAXIMAL_TX_SIZE      (1519 + 1)
+#define	CC3000_MINIMAL_TX_SIZE      (130 + 1)
+//#define CC3000_MAXIMAL_TX_SIZE      (1519 + 1)
+#define CC3000_MAXIMAL_TX_SIZE      (1200 + 1)
 
 //TX and RX buffer sizes, allow to receive and transmit maximum data at length 8.
 #ifdef CC3000_TINY_DRIVER
