@@ -55,10 +55,10 @@ class Adafruit_CC3000_ClientRef : public Print {
   size_t fastrprint(const __FlashStringHelper *ifsh);
 #ifndef CC3000_TINY_SERVER
   size_t fastrprintln(const __FlashStringHelper *ifsh);
-#endif
-
   int16_t write(const void *buf, uint16_t len, uint32_t flags = 0);
   int16_t read(void *buf, uint16_t len, uint32_t flags = 0);
+#endif
+
   uint8_t read(void);
   int32_t close(void);
   uint8_t available(void);
@@ -80,10 +80,12 @@ public:
   Adafruit_CC3000_ClientRef available();
   // Initialize the server and start listening for connections.
   virtual void begin();
+#ifndef CC3000_TINY_SERVER
   // Write data to all connected clients.  Buffer is a pointer to an array
   // of bytes, and size specifies how many bytes to write from the buffer.
   // Return the sum of bytes written to all clients.
   virtual size_t write(const uint8_t *buffer, size_t size);
+#endif
   // Write a byte value to all connected clients.
   // Return the sum of bytes written to all clients.
   virtual size_t write(uint8_t value);

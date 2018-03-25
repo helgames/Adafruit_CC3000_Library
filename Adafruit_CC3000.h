@@ -47,6 +47,13 @@
 #define WIFI_DISABLE 0
 #define WIFI_STATUS_CONNECTED 1
 
+#define USE_WDT
+#ifdef USE_WDT
+    #define WDT_RESET() wdt_reset()
+#else
+    #define WDT_RESET()
+#endif
+
 typedef struct Result_Struct
 {
 	uint32_t	num_networks;
@@ -83,17 +90,18 @@ class Adafruit_CC3000_Client : public Print {
   size_t write(uint8_t c);
 
   size_t fastrprint(const char *str);
-#ifndef CC3000_TINY_SERVER
+#ifndef CC3000_TINY_DRIVER
   size_t fastrprintln(const char *str);
 #endif
 
   size_t fastrprint(const __FlashStringHelper *ifsh);
-#ifndef CC3000_TINY_SERVER
+#ifndef CC3000_TINY_DRIVER
   size_t fastrprintln(const __FlashStringHelper *ifsh);
+  int16_t read(void *buf, uint16_t len, uint32_t flags = 0);
 #endif
 
   int16_t write(const void *buf, uint16_t len, uint32_t flags = 0);
-  int16_t read(void *buf, uint16_t len, uint32_t flags = 0);
+
   uint8_t read(void);
   int32_t close(void);
   uint8_t available(void);
@@ -116,31 +124,25 @@ class Adafruit_CC3000 {
   public:
   Adafruit_CC3000(uint8_t csPin, uint8_t irqPin, uint8_t vbatPin, uint8_t spispeed = SPI_CLOCK_DIVIDER);
     bool     begin(uint8_t patchReq = 0, bool useSmartConfigData = false);
-#ifndef CC3000_TINY_SERVER
     void     reboot(uint8_t patchReq = 0);
     void     stop(void);
     bool     disconnect(void);
-#endif
-    bool     deleteProfiles(void);
-    void     printHex(const byte * data, const uint32_t numBytes);
-    void     printHexChar(const byte * data, const uint32_t numBytes);
-    void     printIPdots(uint32_t ip);
-    void     printIPdotsRev(uint32_t ip);
-    uint32_t IP2U32(uint8_t a, uint8_t b, uint8_t c, uint8_t d);
-    bool     getMacAddress(uint8_t address[6]);
-    bool     setMacAddress(uint8_t address[6]);
 
     bool     connectToAP(const char *ssid, const char *key, uint8_t secmode);
+#if !defined(CC3000_TINY_DRIVER) || !defined(CC3000_SECURE)
+    bool     connectOpen(const char *ssid);
+#endif
+#if !defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
     bool     connectSecure(const char *ssid, const char *key, int32_t secMode);
-    bool     connectOpen(const char *ssid); 
+#endif
     bool     checkConnected(void);
     bool     checkDHCP(void);
     bool     getIPAddress(uint32_t *retip, uint32_t *netmask, uint32_t *gateway, uint32_t *dhcpserv, uint32_t *dnsserv);
-
-    bool     checkSmartConfigFinished(void);
+    void     printIPdotsRev(uint32_t ip);
+    bool     deleteProfiles(void);
 
     Adafruit_CC3000_Client connectTCP(uint32_t destIP, uint16_t destPort);
-#ifndef CC3000_TINY_SERVER
+#ifndef CC3000_TINY_DRIVER
     Adafruit_CC3000_Client connectUDP(uint32_t destIP, uint16_t destPort);
 #endif
 
@@ -150,8 +152,15 @@ class Adafruit_CC3000 {
 
 /* Functions that aren't available with the tiny driver */
 #ifndef CC3000_TINY_DRIVER
+    void     printHex(const byte * data, const uint32_t numBytes);
+    void     printHexChar(const byte * data, const uint32_t numBytes);
+    void     printIPdots(uint32_t ip);
+    uint32_t IP2U32(uint8_t a, uint8_t b, uint8_t c, uint8_t d);
+    bool     getMacAddress(uint8_t address[6]);
+    bool     setMacAddress(uint8_t address[6]);
+    bool     checkSmartConfigFinished(void);
+
     bool     getFirmwareVersion(uint8_t *major, uint8_t *minor);
-    status_t getStatus(void);
     uint16_t startSSIDscan(void);
     void     stopSSIDscan();
     uint8_t  getNextSSID(uint8_t *rssi, uint8_t *secMode, char *ssidname);
@@ -166,6 +175,7 @@ class Adafruit_CC3000 {
     uint16_t getHostByName(char *hostname, uint32_t *ip);
 #endif
 
+    status_t getStatus(void);
     void setPrinter(Print*);
 
   private:

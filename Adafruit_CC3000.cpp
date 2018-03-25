@@ -20,6 +20,7 @@
 	v1.0    - Initial release
 */
 /**************************************************************************/
+#include <avr/wdt.h>
 #include "Adafruit_CC3000.h"
 #include "ccspi.h"
 
@@ -267,6 +268,7 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
   init_spi();
   
   DEBUGPRINT_F("init\n\r");
+  WDT_RESET();
   wlan_init(CC3000_UsynchCallback,
 #ifndef CC3000_NO_PATCH
             sendWLFWPatch, sendDriverPatch, sendBootLoaderPatch,
@@ -277,6 +279,7 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
             WriteWlanPin);
   DEBUGPRINT_F("start\n\r");
 
+  WDT_RESET();
   wlan_start(patchReq);
   
   DEBUGPRINT_F("ioctl\n\r");
@@ -305,6 +308,7 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
   }
 
 #endif
+  WDT_RESET();
   CHECK_SUCCESS(
     wlan_set_event_mask(HCI_EVNT_WLAN_UNSOL_INIT        |
                         //HCI_EVNT_WLAN_ASYNC_PING_REPORT |// we want ping reports
@@ -323,6 +327,7 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
     uint32_t timeout = 0;
     while(!ulCC3000Connected)
     {
+      WDT_RESET();
       cc3k_int_poll();
       if(timeout > WLAN_CONNECT_TIMEOUT)
       {
@@ -334,8 +339,9 @@ bool Adafruit_CC3000::begin(uint8_t patchReq, bool useSmartConfigData)
       timeout += 10;
       delay(10);
     }
-    
-    delay(1000);  
+
+    WDT_RESET();
+    delay(1000);
     if (ulCC3000DHCP)
     {
       mdnsAdvertiser(1, (char *) _deviceName, strlen(_deviceName));
@@ -476,7 +482,6 @@ uint32_t Adafruit_CC3000::IP2U32(uint8_t a, uint8_t b, uint8_t c, uint8_t d) {
     @brief   Reboot CC3000 (stop then start)
 */
 /**************************************************************************/
-#ifndef CC3000_TINY_SERVER
 void Adafruit_CC3000::reboot(uint8_t patch)
 {
   if (!_initialised)
@@ -484,18 +489,20 @@ void Adafruit_CC3000::reboot(uint8_t patch)
     return;
   }
 
+  WDT_RESET();
   wlan_stop();
+  WDT_RESET();
   delay(5000);
+  WDT_RESET();
   wlan_start(patch);
+  WDT_RESET();
 }
-#endif
 
 /**************************************************************************/
 /*!
     @brief   Stop CC3000
 */
 /**************************************************************************/
-#ifndef CC3000_TINY_SERVER
 void Adafruit_CC3000::stop(void)
 {
   if (!_initialised)
@@ -503,9 +510,10 @@ void Adafruit_CC3000::stop(void)
     return;
   }
 
+  WDT_RESET();
   wlan_stop();
+  WDT_RESET();
 }
-#endif
 
 /**************************************************************************/
 /*!
@@ -514,7 +522,6 @@ void Adafruit_CC3000::stop(void)
     @returns  False if an error occured!
 */
 /**************************************************************************/
-#ifndef CC3000_TINY_SERVER
 bool Adafruit_CC3000::disconnect(void)
 {
   if (!_initialised)
@@ -526,7 +533,6 @@ bool Adafruit_CC3000::disconnect(void)
 
   return retVal != 0 ? false : true;
 }
-#endif
 
 /**************************************************************************/
 /*!
@@ -675,7 +681,6 @@ bool Adafruit_CC3000::getFirmwareVersion(uint8_t *major, uint8_t *minor)
               in 'CC3000_TINY_DRIVER' mode
 */
 /**************************************************************************/
-#ifndef CC3000_TINY_DRIVER
 status_t Adafruit_CC3000::getStatus()
 {
   if (!_initialised)
@@ -702,7 +707,6 @@ status_t Adafruit_CC3000::getStatus()
       break;
   }
 }
-#endif
 
 /**************************************************************************/
 /*!
@@ -732,6 +736,7 @@ uint16_t Adafruit_CC3000::startSSIDscan() {
   }
 
   // Setup a 4 second SSID scan
+  WDT_RESET();
   if (!scanSSIDs(4000))
   {
     // Oops ... SSID scan failed
@@ -739,6 +744,7 @@ uint16_t Adafruit_CC3000::startSSIDscan() {
   }
 
   // Wait for results
+  WDT_RESET();
   delay(4500);
 
   CHECK_SUCCESS(wlan_ioctl_get_scan_results(0, (uint8_t* ) &SSIDScanResultBuff),
@@ -803,6 +809,7 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
   // CC3KPrinter->println("Disconnecting");
   // Wait until CC3000 is disconnected
   while (ulCC3000Connected == WIFI_STATUS_CONNECTED) {
+    WDT_RESET();
     cc3k_int_poll();
     CHECK_SUCCESS(wlan_disconnect(),
                   CC3000_MSG_FAIL_DISCONNECT_AP, false);
@@ -812,6 +819,7 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
 
   // Reset the CC3000
   wlan_stop();
+  WDT_RESET();
   delay(1000);
   wlan_start(0);
 
@@ -836,6 +844,7 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
   // Wait for smart config process complete (event in CC3000_UsynchCallback)
   while (ulSmartConfigFinished == 0)
   {
+    WDT_RESET();
     cc3k_int_poll();
     // waiting here for event SIMPLE_CONFIG_DONE
     timeout+=10;
@@ -866,12 +875,13 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
   
   // Reset the CC3000
   wlan_stop();
+  WDT_RESET();
   delay(1000);
   wlan_start(0);
   
   // Mask out all non-required events
   CHECK_SUCCESS(wlan_set_event_mask(HCI_EVNT_WLAN_KEEPALIVE |
-                HCI_EVNT_WLAN_UNSOL_INIT 
+                HCI_EVNT_WLAN_UNSOL_INIT
                 //HCI_EVNT_WLAN_ASYNC_PING_REPORT |
                 //HCI_EVNT_WLAN_TX_COMPLETE
                 ),
@@ -881,6 +891,7 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
   timeout = 0;
   while(!ulCC3000Connected)
   {
+    WDT_RESET();
     cc3k_int_poll();
     if(timeout > WLAN_CONNECT_TIMEOUT) // ~20s
     {
@@ -892,18 +903,19 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
     timeout += 10;
     delay(10);
   }
-  
-  delay(1000);  
+
+  WDT_RESET();
+  delay(1000);
   if (ulCC3000DHCP)
   {
     mdnsAdvertiser(1, (char *) _deviceName, strlen(_deviceName));
   }
-  
+
   return true;
 }
 
 #endif
-
+  
 /**************************************************************************/
 /*!
     Connect to an unsecured SSID/AP(security)
@@ -914,25 +926,28 @@ bool Adafruit_CC3000::startSmartConfig(bool enableAES)
     @returns  False if an error occured!
 */
 /**************************************************************************/
-#ifndef CC3000_SECURE
+#if !defined(CC3000_TINY_DRIVER) || !defined(CC3000_SECURE)
 bool Adafruit_CC3000::connectOpen(const char *ssid)
 {
   if (!_initialised) {
     return false;
   }
 
-  #ifndef CC3000_TINY_DRIVER
+//#ifndef CC3000_TINY_DRIVER
     CHECK_SUCCESS(wlan_ioctl_set_connection_policy(0, 0, 0),
                  CC3000_MSG_FAIL_SET_CONN_POLICY_22, false);
+    WDT_RESET();
     delay(500);
     CHECK_SUCCESS(wlan_connect(WLAN_SEC_UNSEC,
 					(const char*)ssid, strlen(ssid),
 					0 ,NULL,0),
 					CC3000_MSG_FAIL_CONNECT_SSID_23, false);
+/*
 #else
+    WDT_RESET();
     wlan_connect(ssid, strlen(ssidLen));
 #endif
-
+*/
   return true;
 }
 #endif
@@ -1051,6 +1066,7 @@ bool Adafruit_CC3000::connectSecure(const char *ssid, const char *key, int32_t s
 
   CHECK_SUCCESS(wlan_ioctl_set_connection_policy(0, 0, 0),
                 CC3000_MSG_FAIL_SET_CONN_POLICY_27, false);
+  WDT_RESET();
   delay(500);
   CHECK_SUCCESS(wlan_connect(secMode, (char *)ssid, strlen(ssid),
                              NULL,
@@ -1072,13 +1088,17 @@ bool Adafruit_CC3000::connectToAP(const char *ssid, const char *key, uint8_t sec
   int16_t timer;
 
   do {
+    WDT_RESET();
     cc3k_int_poll();
     /* MEME: not sure why this is absolutely required but the cc3k freaks
        if you dont. maybe bootup delay? */
     // Setup a 4 second SSID scan
+    WDT_RESET();
     scanSSIDs(4000);
     // Wait for results
+    WDT_RESET();
     delay(4500);
+    WDT_RESET();
     scanSSIDs(0);
     
     /* Attempt to connect to an access point */
@@ -1287,7 +1307,7 @@ Adafruit_CC3000_Client Adafruit_CC3000::connectTCP(uint32_t destIP, uint16_t des
 }
 
 
-#ifndef CC3000_TINY_SERVER
+#ifndef CC3000_TINY_DRIVER
 Adafruit_CC3000_Client Adafruit_CC3000::connectUDP(uint32_t destIP, uint16_t destPort)
 {
   sockaddr      socketAddress;
@@ -1416,7 +1436,7 @@ size_t Adafruit_CC3000_Client::fastrprint(const __FlashStringHelper *ifsh)
   return n;
 }
 
-#ifndef CC3000_TINY_SERVER
+#ifndef CC3000_TINY_DRIVER
 size_t Adafruit_CC3000_Client::fastrprintln(const __FlashStringHelper *ifsh)
 {
   size_t r = 0;
@@ -1448,11 +1468,13 @@ size_t Adafruit_CC3000_Client::fastrprint(const char *str)
   }
 }
 
-int16_t Adafruit_CC3000_Client::read(void *buf, uint16_t len, uint32_t flags) 
+#ifndef CC3000_TINY_DRIVER
+int16_t Adafruit_CC3000_Client::read(void *buf, uint16_t len, uint32_t flags)
 {
   return recv(_socket, buf, len, flags);
 
 }
+#endif
 
 int32_t Adafruit_CC3000_Client::close(void) {
   int32_t x = closesocket(_socket);

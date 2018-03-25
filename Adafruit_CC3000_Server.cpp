@@ -54,7 +54,7 @@ size_t Adafruit_CC3000_ClientRef::fastrprint(const char *str) {
   return _client->fastrprint(str);
 }
 
-#ifndef CC3000_TINY_DRIVER
+#ifndef CC3000_TINY_SERVER
 size_t Adafruit_CC3000_ClientRef::fastrprintln(const char *str) {
   HANDLE_NULL(_client, 0);
   return _client->fastrprintln(str);
@@ -66,12 +66,11 @@ size_t Adafruit_CC3000_ClientRef::fastrprint(const __FlashStringHelper *ifsh) {
   return _client->fastrprint(ifsh);
 }
 
-#ifndef CC3000_TINY_DRIVER
+#ifndef CC3000_TINY_SERVER
 size_t Adafruit_CC3000_ClientRef::fastrprintln(const __FlashStringHelper *ifsh) {
   HANDLE_NULL(_client, 0);
   return _client->fastrprintln(ifsh);
 }
-#endif
 
 int16_t Adafruit_CC3000_ClientRef::write(const void *buf, uint16_t len, uint32_t flags) {
   HANDLE_NULL(_client, 0);
@@ -82,6 +81,7 @@ int16_t Adafruit_CC3000_ClientRef::read(void *buf, uint16_t len, uint32_t flags)
   HANDLE_NULL(_client, 0);
   return _client->read(buf, len, flags);
 }
+#endif
 
 uint8_t Adafruit_CC3000_ClientRef::read(void) {
   HANDLE_NULL(_client, 0);
@@ -137,10 +137,12 @@ void Adafruit_CC3000_Server::begin() {
   unsigned long aucKeepalive  = 30;
   unsigned long aucInactivity = 0;
   cc3k_int_poll();
+  #ifndef CC3000_TINY_EXPERIMENTAL
   if (netapp_timeout_values(&aucDHCP, &aucARP, &aucKeepalive, &aucInactivity) != 0) {
     CC3K_PRINTLN_F(CC3000_MSG_ERR_SET_CLIENT_TIMEOUT);
     return;
   }
+  #endif
   // Create a TCP socket
   cc3k_int_poll();
   int16_t soc = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -175,6 +177,7 @@ void Adafruit_CC3000_Server::begin() {
   _listenSocket = soc;
 }
 
+#ifndef CC3000_TINY_SERVER
 // Write data to all connected clients.  Buffer is a pointer to an array
 // of bytes, and size specifies how many bytes to write from the buffer.
 // Return the sum of bytes written to all clients.
@@ -187,6 +190,7 @@ size_t Adafruit_CC3000_Server::write(const uint8_t *buffer, size_t size) {
   }
   return written;
 }
+#endif
 
 // Write a byte value to all connected clients.
 // Return the sum of bytes written to all clients.
