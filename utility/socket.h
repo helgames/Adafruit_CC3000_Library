@@ -670,7 +670,9 @@ extern int sendto(long sd, const void *buf, long len, long flags,
 //!  @brief    Set CC3000 in mDNS advertiser mode in order to advertise itself.
 //
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern int mdnsAdvertiser(unsigned short mdnsEnabled, char * deviceServiceName, unsigned short deviceServiceNameLength);
+#endif
 
 //*****************************************************************************
 //

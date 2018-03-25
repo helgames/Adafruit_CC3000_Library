@@ -64,7 +64,6 @@ void displayFreeRam(void)
   CC3KPrinter->print(getFreeRam());
   CC3KPrinter->println(F(" bytes"));
 }
-#endif
 
 void uart_putchar(char c) {
   if (CC3KPrinter != 0) {
@@ -124,3 +123,4 @@ void DEBUGPRINT(const prog_char *fstr)
   while((c = pgm_read_byte(fstr++)))
     uart_putchar(c);
 }
+#endif

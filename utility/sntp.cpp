@@ -3,6 +3,7 @@
 // 
 
 #include "sntp.h"
+#ifndef CC3000_NO_SNTP
 
 //Lists of pool servers
 
@@ -662,3 +663,4 @@ bool sntp::UpdateNTPTime()
 
 //sntp SNTP;
 
+#endif

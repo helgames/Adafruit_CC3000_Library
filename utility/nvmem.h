@@ -154,8 +154,10 @@ extern signed long nvmem_write(unsigned long ulFileId, unsigned long ulLength, u
 //!               mac address as appears over the air (OUI first)
 //!	 
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern	unsigned char nvmem_set_mac_address(unsigned char *mac);
 
+#endif
 
 //*****************************************************************************
 //
@@ -169,8 +171,10 @@ extern	unsigned char nvmem_set_mac_address(unsigned char *mac);
 //!               mac address as appears over the air (OUI first)
 //!	 
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern	unsigned char nvmem_get_mac_address(unsigned char *mac);
 
+#endif
 
 //*****************************************************************************
 //
@@ -189,8 +193,10 @@ extern	unsigned char nvmem_get_mac_address(unsigned char *mac);
 //!              applied in SP_PORTION_SIZE bytes portions.
 //!	 
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 extern	unsigned char nvmem_write_patch(unsigned long ulFileId, unsigned long spLength, const unsigned char *spData);
 
+#endif
 
 //*****************************************************************************
 //

@@ -171,6 +171,7 @@ void hci_data_command_send(unsigned short usOpcode, unsigned char *pucBuff,
 //!  @brief               Prepeare HCI header and initiate an HCI patch write operation
 //
 //*****************************************************************************
+#ifndef CC3000_NO_PATCH
 void
 hci_patch_send(unsigned char ucOpcode, unsigned char *pucBuff, char *patch, unsigned short usDataLength)
 { 
@@ -229,6 +230,7 @@ hci_patch_send(unsigned char ucOpcode, unsigned char *pucBuff, char *patch, unsi
 		}
 	}
 }
+#endif
 
 //*****************************************************************************
 //

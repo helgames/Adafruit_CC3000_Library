@@ -1159,6 +1159,7 @@ sendto(long sd, const void *buf, long len, long flags, const sockaddr *to,
 //
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 int
 mdnsAdvertiser(unsigned short mdnsEnabled, char * deviceServiceName, unsigned short deviceServiceNameLength)
 {
@@ -1188,3 +1189,4 @@ mdnsAdvertiser(unsigned short mdnsEnabled, char * deviceServiceName, unsigned sh
 	return ret;
 	
 }
+#endif

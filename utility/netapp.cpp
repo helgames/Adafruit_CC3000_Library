@@ -107,6 +107,7 @@ long netapp_config_mac_adrress(unsigned char * mac)
 //!               AP was established. 
 //!
 //*****************************************************************************
+#ifndef CC3000_TINY_DRIVER
 long netapp_dhcp(unsigned long *aucIP, unsigned long *aucSubnetMask,unsigned long *aucDefaultGateway, unsigned long *aucDNSServer)
 {
 	signed char scRet;
@@ -133,6 +134,7 @@ long netapp_dhcp(unsigned long *aucIP, unsigned long *aucSubnetMask,unsigned lon
 	return(scRet);
 }
 
+#endif
 
 //*****************************************************************************
 //
@@ -184,8 +186,8 @@ long netapp_dhcp(unsigned long *aucIP, unsigned long *aucSubnetMask,unsigned lon
 //!
 //*****************************************************************************
 
-#if ! defined(CC3000_TINY_DRIVER) || defined(CC3000_SECURE)
-long 
+#if ! defined(CC3000_TINY_DRIVER) // || defined(CC3000_SECURE)
+long
 netapp_timeout_values(unsigned long *aucDHCP, unsigned long *aucARP,unsigned long *aucKeepalive,	unsigned long *aucInactivity)
 {
 	signed char scRet;

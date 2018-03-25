@@ -172,8 +172,11 @@ void hci_unsol_handle_patch_request(char *event_hdr)
 #endif
 
 		// Send 0 length Patches response event
+        // XXX: Hopefully this will never happen!!!
+#ifndef CC3000_TINY_EXPERIMENTAL
 		hci_patch_send(HCI_EVENT_PATCHES_DRV_REQ,
 									 tSLInformation.pucTxCommandBuffer, 0, 0);
+#endif
 		break;
 
 	case HCI_EVENT_PATCHES_FW_REQ:
@@ -194,8 +197,10 @@ void hci_unsol_handle_patch_request(char *event_hdr)
 
 #endif
 		// Send 0 length Patches response event
+#ifndef CC3000_TINY_EXPERIMENTAL
 		hci_patch_send(HCI_EVENT_PATCHES_FW_REQ,
 									 tSLInformation.pucTxCommandBuffer, 0, 0);
+#endif
 		break;
 
 	case HCI_EVENT_PATCHES_BOOTLOAD_REQ:
@@ -213,8 +218,10 @@ void hci_unsol_handle_patch_request(char *event_hdr)
 		}
 #endif
 		// Send 0 length Patches response event
+#ifndef CC3000_TINY_EXPERIMENTAL
 		hci_patch_send(HCI_EVENT_PATCHES_BOOTLOAD_REQ,
 									 tSLInformation.pucTxCommandBuffer, 0, 0);
+#endif
 		break;
 	}
 }

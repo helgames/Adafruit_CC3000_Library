@@ -67,6 +67,7 @@ extern "C" {
  * others.
  */
 #define CC3000_TINY_DRIVER
+#define CC3000_TINY_EXPERIMENTAL
 
 /*
  * Define CC3000_TINY_SERVER to compile the driver with some string and utility

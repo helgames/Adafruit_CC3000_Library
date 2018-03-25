@@ -201,11 +201,13 @@ nvmem_write(unsigned long ulFileId, unsigned long ulLength, unsigned long
 //!	 
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 unsigned char nvmem_set_mac_address(unsigned char *mac)
 {
 	return  nvmem_write(NVMEM_MAC_FILEID, MAC_ADDR_LEN, 0, mac);
 }
 
+#endif
 //*****************************************************************************
 //
 //!  nvmem_get_mac_address
@@ -219,10 +221,12 @@ unsigned char nvmem_set_mac_address(unsigned char *mac)
 //!	 
 //*****************************************************************************
 
+#ifndef CC3000_TINY_DRIVER
 unsigned char nvmem_get_mac_address(unsigned char *mac)
 {
 	return  nvmem_read(NVMEM_MAC_FILEID, MAC_ADDR_LEN, 0, mac);
 }
+#endif
 
 //*****************************************************************************
 //
@@ -242,6 +246,7 @@ unsigned char nvmem_get_mac_address(unsigned char *mac)
 //!	 
 //*****************************************************************************
 
+#ifdef CC3000_TINY_DRIVER
 unsigned char nvmem_write_patch(unsigned long ulFileId, unsigned long spLength, const uint8_t *spData)
 {
 	unsigned char 	status = 0;
@@ -284,6 +289,7 @@ unsigned char nvmem_write_patch(unsigned long ulFileId, unsigned long spLength, 
 	
 	return status;
 }
+#endif
 
 //*****************************************************************************
 //

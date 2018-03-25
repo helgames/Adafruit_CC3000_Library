@@ -265,6 +265,7 @@
 //   implemented, the Key Identifier and Message Digest fields contain the
 //   message authentication code (MAC) information defined in Appendix C
 //   of RFC-1305.
+#ifndef CC3000_NO_SNTP
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "Arduino.h"
@@ -272,6 +273,7 @@
 	#include "WProgram.h"
 #endif
 
+#include "utility/cc3000_common.h"
 #include "utility/socket.h"
 #include "utility/netapp.h"
 
@@ -405,5 +407,6 @@ class sntp
 //extern sntp SNTP;
 extern Print* CC3KPrinter;
 
+#endif
 #endif
 
