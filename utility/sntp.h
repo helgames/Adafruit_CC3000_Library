@@ -265,6 +265,7 @@
 //   implemented, the Key Identifier and Message Digest fields contain the
 //   message authentication code (MAC) information defined in Appendix C
 //   of RFC-1305.
+#include "utility/cc3000_common.h"
 #ifndef CC3000_NO_SNTP
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -273,7 +274,6 @@
 	#include "WProgram.h"
 #endif
 
-#include "utility/cc3000_common.h"
 #include "utility/socket.h"
 #include "utility/netapp.h"
 
@@ -367,16 +367,16 @@ class sntp
  	sntp(char* ntp_server_url1, char* ntp_server_url2, short local_utc_offset);
  	sntp(char* ntp_server_url1, short local_utc_offset, short dst_utc_offset, bool enable_dst);
 	sntp(char* ntp_server_url1, char* ntp_server_url2, short local_utc_offset, short dst_utc_offset, bool enable_dst);
-	
+
 	virtual ~sntp() {};
-		
+
 	NetTime_t			*ExtractNTPTime(/*in*/ SNTP_Timestamp_t *ntpTime, /*out*/ NetTime_t *extractedTime);
 
 	bool				UpdateNTPTime();
 	SNTP_Timestamp_t*	NTPGetTime(SNTP_Timestamp_t* ntpTime, bool local);
 	SNTP_Timestamp_t*	NTPSetTime(SNTP_Timestamp_t* ntpTime, bool local);
 	int					GetSystemClockAsNTPTime(SNTP_Timestamp_t* ntpSystemTime);
-	
+
   private:
 	char				GetNTPServerList(const char** ntp_pool_list, uint32_t* addrBuffer, int maxServerCount);
 	bool				SNTP_GetTime(int sntpSocket, uint32_t *ntpServerAddr);

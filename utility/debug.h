@@ -22,6 +22,7 @@
 /**************************************************************************/
 
 #include <Arduino.h>
+#include "cc3000_common.h"
 
 #define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #if (GCC_VERSION >= 40702) || !defined(prog_char)
